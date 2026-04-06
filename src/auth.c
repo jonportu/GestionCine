@@ -1,5 +1,5 @@
-
 #include "auth.h"
+#include "db.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -148,26 +148,68 @@ void log_escribir(NivelLog nivel, const char *usuario, const char *formato, ...)
     va_end(args);
 
     fprintf(g_log_file, "\n");
-    fflush(g_log_file);  /* asegurar que se escribe aunque el programa falle */
+    fflush(g_log_file);
 }
+
+
 
 static Usuario g_usuario_actual;
 static int     g_sesion_activa = 0;
 
+
 void auth_hash_password(const char *password, char *destino) {
-    (void)password;  /* (void) marca el parámetro como "intencionalmente no usado" */
-    if (destino != NULL) destino[0] = '\0';
+    if (password == NULL || destino == NULL) return;
+
+    unsigned long hash = 5381;
+    const unsigned char *p = (const unsigned char *)password;
+
+    while (*p != '\0') {
+
+        hash = ((hash << 5) + hash) + *p;
+        p++;
+    }
+
+    snprintf(destino, MAX_PASSWORD, "%lx", hash);
 }
+
 
 int auth_login(const char *nombre_usuario, const char *password) {
-    (void)nombre_usuario;
-    (void)password;
-    return -1;
+    if (nombre_usuario == NULL || password == NULL) return -1;
+
+
+    Usuario *u = db_usuario_buscar_por_nombre(nombre_usuario);
+    if (u == NULL) {
+        log_escribir(LOG_WARN, nombre_usuario, "Intento de login con usuario inexistente");
+        return -1;
+    }
+
+    char hash_introducido[MAX_PASSWORD];
+    auth_hash_password(password, hash_introducido);
+
+    if (strcmp(hash_introducido, u->password_hash) != 0) {
+        log_escribir(LOG_WARN, nombre_usuario, "Password incorrecta");
+        free(u);
+        return -1;
+    }
+
+    memcpy(&g_usuario_actual, u, sizeof(Usuario));
+    g_sesion_activa = 1;
+
+    log_escribir(LOG_INFO, nombre_usuario, "Login correcto");
+
+    free(u); 
+    return 0;
 }
 
+
 void auth_logout(void) {
+    if (g_sesion_activa) {
+        log_escribir(LOG_INFO, g_usuario_actual.nombre_usuario, "Logout");
+    }
+    memset(&g_usuario_actual, 0, sizeof(Usuario));
     g_sesion_activa = 0;
 }
+
 
 const Usuario *auth_usuario_actual(void) {
     return g_sesion_activa ? &g_usuario_actual : NULL;
