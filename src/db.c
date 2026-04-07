@@ -509,3 +509,73 @@ int listar_entradas(Entrada entradas[], int max) {
     sqlite3_finalize(stmt);
     return n;
 }
+
+// ===== FUNCIONES PARA REPORTES =====
+
+float obtener_ingresos_sesion(int sesion_id) {
+    char sql[] = "SELECT SUM(precio) FROM entradas WHERE sesion_id = ?;";
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) return 0.0;
+    sqlite3_bind_int(stmt, 1, sesion_id);
+
+    float ingresos = 0.0;
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        if (sqlite3_column_type(stmt, 0) != SQLITE_NULL) {
+            ingresos = sqlite3_column_double(stmt, 0);
+        }
+    }
+    sqlite3_finalize(stmt);
+    return ingresos;
+}
+
+float obtener_ingresos_pelicula(int pelicula_id) {
+    char sql[] = "SELECT SUM(e.precio) FROM entradas e "
+                 "JOIN sesiones s ON e.sesion_id = s.id "
+                 "WHERE s.pelicula_id = ?;";
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) return 0.0;
+    sqlite3_bind_int(stmt, 1, pelicula_id);
+
+    float ingresos = 0.0;
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        if (sqlite3_column_type(stmt, 0) != SQLITE_NULL) {
+            ingresos = sqlite3_column_double(stmt, 0);
+        }
+    }
+    sqlite3_finalize(stmt);
+    return ingresos;
+}
+
+float obtener_ingresos_sala(int sala_id) {
+    char sql[] = "SELECT SUM(e.precio) FROM entradas e "
+                 "JOIN sesiones s ON e.sesion_id = s.id "
+                 "WHERE s.sala_id = ?;";
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) return 0.0;
+    sqlite3_bind_int(stmt, 1, sala_id);
+
+    float ingresos = 0.0;
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        if (sqlite3_column_type(stmt, 0) != SQLITE_NULL) {
+            ingresos = sqlite3_column_double(stmt, 0);
+        }
+    }
+    sqlite3_finalize(stmt);
+    return ingresos;
+}
+
+int obtener_ocupacion_sala(int sala_id) {
+    char sql[] = "SELECT SUM(s.vendidas) FROM sesiones s WHERE s.sala_id = ?;";
+    sqlite3_stmt *stmt;
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) return 0;
+    sqlite3_bind_int(stmt, 1, sala_id);
+
+    int ocupacion = 0;
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        if (sqlite3_column_type(stmt, 0) != SQLITE_NULL) {
+            ocupacion = sqlite3_column_int(stmt, 0);
+        }
+    }
+    sqlite3_finalize(stmt);
+    return ocupacion;
+}

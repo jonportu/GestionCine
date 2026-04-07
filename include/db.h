@@ -40,6 +40,12 @@ int listar_clientes(Cliente clientes[], int max);
 int vender_entrada(Entrada *e);  // comprueba sesion, inserta, incrementa contador
 int listar_entradas(Entrada entradas[], int max);
 
+// Reportes
+float obtener_ingresos_sesion(int sesion_id);
+float obtener_ingresos_pelicula(int pelicula_id);
+float obtener_ingresos_sala(int sala_id);
+int obtener_ocupacion_sala(int sala_id);
+
 int vaciar_db(void);
 
 #endif

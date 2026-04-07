@@ -7,6 +7,30 @@
 #include "auth.h"
 #include "db.h"
 #include "utiles.h"
+#include "reportes.h"
+
+void menu_reportes(void) {
+    int salir = 0;
+    while (!salir) {
+        limpiar();
+        printf("\n--- REPORTES ---\n\n");
+        printf("1. Peliculas en cartelera\n");
+        printf("2. Ingresos por pelicula\n");
+        printf("3. Ingresos por sala\n");
+        printf("4. Ocupacion de salas\n");
+        printf("0. Volver\n\n");
+
+        int opcion = leer_entero("Opcion: ");
+
+        switch (opcion) {
+            case 1: reporte_peliculas_cartelera(); break;
+            case 2: reporte_ingresos_pelicula(); break;
+            case 3: reporte_ingresos_sala(); break;
+            case 4: reporte_ocupacion_salas(); break;
+            case 0: salir = 1; break;
+        }
+    }
+}
 
 void menu_peliculas(void) {
     int salir = 0;
@@ -482,7 +506,8 @@ void menu_principal(void) {
         printf("3. Sesiones\n");
         printf("4. Clientes\n");
         printf("5. Venta de entradas\n");
-        printf("6. Vaciar base de datos\n");
+        printf("6. Reportes\n");
+        printf("7. Vaciar base de datos\n");
         printf("0. Salir\n\n");
 
         int opcion = leer_entero("Opcion: ");
@@ -493,7 +518,8 @@ void menu_principal(void) {
             case 3: menu_sesiones(); break;
             case 4: menu_clientes(); break;
             case 5: menu_venta(); break;
-            case 6: vaciar_base_datos(); break;
+            case 6: menu_reportes(); break;
+            case 7: vaciar_base_datos(); break;
             case 0: salir = 1; break;
         }
     }
