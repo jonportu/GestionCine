@@ -18,13 +18,14 @@ int cargar_config(const char *ruta) {
 
     char linea[300];
     while (fgets(linea, sizeof(linea), f)) {
-  
+
         if (linea[0] == '#' || linea[0] == '\n' || linea[0] == '\r') continue;
 
-
         int len = strlen(linea);
-        if (len > 0 && linea[len-1] == '\n') linea[len-1] = '\0';
-        if (len > 1 && linea[len-2] == '\r') linea[len-2] = '\0';
+        while (len > 0 && (linea[len-1] == '\n' || linea[len-1] == '\r')) {
+            linea[len-1] = '\0';
+            len--;
+        }
 
         char *igual = strchr(linea, '=');
         if (igual == NULL) continue;
@@ -45,26 +46,13 @@ int cargar_config(const char *ruta) {
     return 0;
 }
 
-void hash_password(const char *password, char *destino) {
-    unsigned long hash = 5381;
-    int i = 0;
-    while (password[i] != '\0') {
-        hash = ((hash << 5) + hash) + password[i];
-        i++;
-    }
-    sprintf(destino, "%lx", hash);
-}
-
 int login(const char *nombre, const char *password) {
     Usuario u;
     if (buscar_usuario_por_nombre(nombre, &u) != 0) {
         return -1;
     }
 
-    char hash[50];
-    hash_password(password, hash);
-
-    if (strcmp(hash, u.password) != 0) {
+    if (strcmp(password, u.password) != 0) {
         return -1;
     }
 

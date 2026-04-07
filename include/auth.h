@@ -14,7 +14,6 @@ extern Usuario usuario_actual;
 extern int hay_sesion;
 
 int cargar_config(const char *ruta);
-void hash_password(const char *password, char *destino);
 int login(const char *nombre, const char *password);
 void logout(void);
 
