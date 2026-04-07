@@ -12,3 +12,13 @@
 [2026-04-06 21:40:22] [WARN] [admin] Password incorrecta
 [2026-04-06 21:40:22] [INFO] [-] Base de datos cerrada
 [2026-04-06 21:40:22] [INFO] [-] === Cierre del servidor ===
+[2026-04-06 21:55:50] [INFO] [-] === Arranque del servidor ===
+[2026-04-06 21:55:50] [INFO] [-] Base de datos inicializada: data/cine.db
+[2026-04-06 21:55:59] [WARN] [1] Intento de login con usuario inexistente
+[2026-04-06 21:56:19] [WARN] [admin] Password incorrecta
+[2026-04-06 21:56:43] [WARN] [123] Intento de login con usuario inexistente
+[2026-04-06 21:56:45] [INFO] [-] Base de datos cerrada
+[2026-04-06 21:56:45] [INFO] [-] === Cierre del servidor ===
+[2026-04-06 22:19:02] [INFO] [-] === Arranque del servidor ===
+[2026-04-06 22:19:02] [INFO] [-] Base de datos inicializada: data/cine.db
+[2026-04-07 02:25:37] Servidor iniciado
