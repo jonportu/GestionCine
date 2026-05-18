@@ -12,6 +12,8 @@
 #include <cstring>
 #include "conexion.h"
 
+using namespace std;
+
 Conexion::Conexion() {
     sock = -1;
     conectado_flag = false;
@@ -30,7 +32,7 @@ Conexion::~Conexion() {
 #endif
 }
 
-bool Conexion::conectar(const std::string &ip, int puerto) {
+bool Conexion::conectar(const string &ip, int puerto) {
     sock = socket(AF_INET, SOCK_STREAM, 0);
 
 #ifdef _WIN32
@@ -65,10 +67,10 @@ bool Conexion::conectar(const std::string &ip, int puerto) {
     return true;
 }
 
-bool Conexion::enviar(const std::string &mensaje) {
+bool Conexion::enviar(const string &mensaje) {
     if (!conectado_flag) return false;
 
-    std::string linea = mensaje + "\n";
+    string linea = mensaje + "\n";
 
     int enviado = send((int)sock, linea.c_str(), linea.length(), 0);
     if (enviado < 0) {
@@ -78,8 +80,8 @@ bool Conexion::enviar(const std::string &mensaje) {
     return true;
 }
 
-std::string Conexion::recibir() {
-    std::string resultado;
+string Conexion::recibir() {
+    string resultado;
     char c;
 
     while (true) {
