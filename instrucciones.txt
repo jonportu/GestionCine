@@ -1,0 +1,36 @@
+El proyecto tiene 3 programas:
+
+1. ADMINISTRADOR LOCAL - Lenguaje C
+2. SERVIDOR REMOTO - Lenguaje C
+3. CLIENTE REMOTO - Lenguaje C++
+
+Requisitos: MinGW (gcc y g++) instalado en el PATH.
+
+Tenemos compliar.sh en el servidor y cliente para simplificar la compilacion.
+
+Administrador local (desde la raiz del proyecto):
+   bash compilar.sh
+
+Servidor remoto:
+   cd servidor
+   bash compilar.sh
+
+Cliente remoto:
+   cd cliente
+   bash compilar.sh
+
+Para ejecutar: 
+
+1. Arrancar el servidor en una terminal:
+   cd GestionCine
+   ./servidor/bin/servidor.exe
+
+2. Arrancar el cliente en otra terminal:
+   cd GestionCine/cliente
+   ./bin/cliente.exe
+
+3. Login: usuario "admin", password "admin123"
+
+4. El administrador local funciona de forma independiente:
+   cd GestionCine
+   ./bin/programa.exe
