@@ -33,13 +33,29 @@ string Menu::leerString(const string &prompt) {
 }
 
 int Menu::leerEntero(const string &prompt) {
-    string linea = leerString(prompt);
-    return atoi(linea.c_str());
+    while (true) {
+        string linea = leerString(prompt);
+        if (linea.empty()) continue;
+        try {
+            size_t pos;
+            int val = std::stoi(linea, &pos);
+            if (pos == linea.length()) return val;
+        } catch (...) {}
+        cout << "Entrada invalida. Introduce un numero entero." << endl;
+    }
 }
 
 float Menu::leerFloat(const string &prompt) {
-    string linea = leerString(prompt);
-    return atof(linea.c_str());
+    while (true) {
+        string linea = leerString(prompt);
+        if (linea.empty()) continue;
+        try {
+            size_t pos;
+            float val = std::stof(linea, &pos);
+            if (pos == linea.length()) return val;
+        } catch (...) {}
+        cout << "Entrada invalida. Introduce un numero decimal." << endl;
+    }
 }
 
 bool Menu::confirmar(const string &prompt) {

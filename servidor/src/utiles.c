@@ -16,14 +16,32 @@ void leer_string(const char *prompt, char *destino, int max) {
 
 int leer_entero(const char *prompt) {
     char buffer[50];
-    leer_string(prompt, buffer, sizeof(buffer));
-    return atoi(buffer);
+    char *endptr;
+    long val;
+    while (1) {
+        leer_string(prompt, buffer, sizeof(buffer));
+        if (strlen(buffer) == 0) continue;
+        val = strtol(buffer, &endptr, 10);
+        if (*endptr == '\0') {
+            return (int)val;
+        }
+        printf("Entrada invalida. Introduce un numero entero.\n");
+    }
 }
 
 float leer_float(const char *prompt) {
     char buffer[50];
-    leer_string(prompt, buffer, sizeof(buffer));
-    return atof(buffer);
+    char *endptr;
+    float val;
+    while (1) {
+        leer_string(prompt, buffer, sizeof(buffer));
+        if (strlen(buffer) == 0) continue;
+        val = strtof(buffer, &endptr);
+        if (*endptr == '\0') {
+            return val;
+        }
+        printf("Entrada invalida. Introduce un numero decimal.\n");
+    }
 }
 
 int confirmar(const char *prompt) {

@@ -21,6 +21,23 @@ int main(void) {
 
     crear_admin_si_no_existe(config.admin_user, config.admin_pass);
 
+    Pelicula p_test;
+    if (buscar_pelicula(1, &p_test) != 0) {
+        Pelicula p1 = {0, "El Padrino", "Drama", 175, 18};
+        crear_pelicula(&p1);
+        Pelicula p2 = {0, "Matrix", "Ciencia Ficcion", 136, 12};
+        crear_pelicula(&p2);
+        Sala s1 = {0, 1, 50};
+        crear_sala(&s1);
+        Sala s2 = {0, 2, 100};
+        crear_sala(&s2);
+        Sesion se1 = {0, 1, 1, "2026-05-20", "18:00", 8.50, 0};
+        crear_sesion(&se1);
+        Cliente c1 = {0, "Juan Perez", "juan@mail.com", "600123456"};
+        crear_cliente(&c1);
+        printf("[SERVIDOR] Datos de prueba inicializados en BD.\n");
+    }
+
     if (red_iniciar(5000) != 0) {
         printf("No se pudo iniciar el servidor\n");
         cerrar_db();
